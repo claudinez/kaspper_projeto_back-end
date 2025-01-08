@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Projeto</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Cadastro de Novo Projeto</h2>
+        <form method="POST" action="/servicos/salvar">
+            <div class="form-group">
+                <label for="id_cliente">ID Cliente</label>
+                <input type="number" class="form-control" id="id_cliente" name="id_cliente" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nome_projeto">Nome do Projeto</label>
+                <input type="text" class="form-control" id="nome_projeto" name="nome_projeto" maxlength="50" required>
+            </div>
+
+            <div class="form-group">
+                <label for="categoria_projeto">Categoria do Projeto</label>
+                <input type="text" class="form-control" id="categoria_projeto" name="categoria_projeto" maxlength="50" required>
+            </div>
+
+            <h4>Tecnologias</h4>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="php" name="php" value="T">
+                <label class="form-check-label" for="php">PHP</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="css" name="css" value="T">
+                <label class="form-check-label" for="css">CSS</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="html" name="html" value="T">
+                <label class="form-check-label" for="html">HTML</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="java" name="java" value="T">
+                <label class="form-check-label" for="java">Java</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="angular" name="angular" value="T">
+                <label class="form-check-label" for="angular">Angular</label>
+            </div>
+            <!-- Continue o padrão acima para todas as tecnologias -->
+
+            <div class="form-group mt-3">
+                <label for="outras_linguagens_banco_dados">Outras Linguagens ou Bancos de Dados</label>
+                <input type="text" class="form-control" id="outras_linguagens_banco_dados" name="outras_linguagens_banco_dados" maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="duracao">Duração</label>
+                <input type="text" class="form-control" id="duracao" name="duracao" maxlength="30">
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select class="form-control" id="status" name="status">
+                    <option value="Aberto">Aberto</option>
+                    <option value="Fechado">Fechado</option>
+                    <option value="Em andamento">Em andamento</option>
+                    <option value="Concluído">Concluído</option>
+                    <option value="Cancelado">Cancelado</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar Projeto</button>
+            <button type="submit" class="btn btn-primary">Cancelar Projeto</button>
+        </form>
+    </div>
+</body>
+</html>

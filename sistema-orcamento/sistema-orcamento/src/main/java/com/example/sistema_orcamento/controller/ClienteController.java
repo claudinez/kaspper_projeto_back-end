@@ -1,13 +1,16 @@
 package com.example.sistema_orcamento.controller;
 
-import com.example.sistema_orcamento.model.Cliente;
-import com.example.sistema_orcamento.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.sistema_orcamento.model.*;
+import com.example.sistema_orcamento.service.ClienteService;
+
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/clientes")
@@ -16,61 +19,46 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    // Exibir lista de clientes
     @GetMapping
-    public String listarTodos(Model model) {
-        List<Cliente> listaClientes = clienteService.listarTodos();
-        model.addAttribute("clientes", listaClientes);
-        return "clientes/listar";
+    public String listarClientes(Model model) {
+        List<Cliente> clientes = clienteService.listarTodos();
+        model.addAttribute("clientes", clientes);
+        return "clientes/listar"; // Template Thymeleaf para listar clientes
     }
 
-    // Exibir cliente por ID
-    @GetMapping("/{id_cliente}")
-    public String buscarPorId(@PathVariable Long id_cliente, Model model) {
-        Cliente cliente = clienteService.buscarPorId(id_cliente).orElse(null);
-        model.addAttribute("cliente", cliente);
-        return "clientes/detalhes";
+    @GetMapping("/novo")
+    public String novoClienteForm(Model model) {
+        model.addAttribute("cliente", new Cliente());
+        return "clientes/novo"; // Template para o formulário de cliente
     }
 
-    // Salvar cliente
-    @PostMapping
-    public String salvar(@ModelAttribute Cliente cliente) {
+    @PostMapping("/salvar")
+    public String salvarCliente(@ModelAttribute Cliente cliente) {
         clienteService.salvar(cliente);
         return "redirect:/clientes";
     }
 
-    // Excluir cliente
-    @PostMapping("/{id_cliente}/excluir")
-    public String excluir(@PathVariable Long id_cliente) {
-        clienteService.excluir(id_cliente);
-        return "redirect:/clientes";
-    }
-
-    // Editar cliente (GET)
-    @GetMapping("/{id_cliente}/editar")
-    public String editarCliente(@PathVariable("id_cliente") Long id_cliente, Model model) {
-        // Buscar o cliente pelo ID
-        Cliente cliente = clienteService.buscarPorId(id_cliente).orElse(null);
-        if (cliente != null) {
-            model.addAttribute("cliente", cliente); // Adicionar o cliente ao modelo
-            return "clientes/editar"; // Nome da view HTML
+    @GetMapping("/editar/{id}")
+    public String editarCliente(@PathVariable Long id, Model model) {
+        Optional<Cliente> cliente = clienteService.buscarPorId(id);
+        if (cliente.isPresent()) {
+            model.addAttribute("cliente", cliente.get());
+            return "clientes/editar";
         } else {
-            return "redirect:/clientes"; // Redireciona para a lista de clientes caso não encontre o cliente
+            return "redirect:/clientes";
         }
     }
 
-    // Atualizar cliente após edição (POST)
-    @PostMapping("/{id_cliente}/editar")
-    public String atualizar(@PathVariable Long id_cliente, @ModelAttribute Cliente cliente) {
-        cliente.setId(id_cliente);  // Garantir que o ID está sendo mantido
-        clienteService.salvar(cliente);  // Atualiza o cliente no banco de dados
-        return "redirect:/clientes";  // Redireciona para a lista de clientes após atualização
+    @GetMapping("/deletar/{id}")
+    public String deletarCliente(@PathVariable Long id) {
+        clienteService.excluir(id);
+        return "redirect:/clientes";
     }
 
-    // Exibir formulário de criação de novo cliente
-    @GetMapping("/novo")
-    public String novoCliente(Model model) {
-        model.addAttribute("cliente", new Cliente()); // Formulário vazio para novo cliente
-        return "clientes/novo";
+    @GetMapping("/api")
+    @ResponseBody
+    public ResponseEntity<List<Cliente>> listarClientesAPI() {
+        List<Cliente> clientes = clienteService.listarTodos();
+        return ResponseEntity.ok(clientes);
     }
 }

@@ -1,31 +1,40 @@
 package com.example.sistema_orcamento.model;
+
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "cad_cliente")
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_cliente;
+    private Long id;
 
+    @Column(nullable = false, length = 50)
     private String nome;
-    private String sobrenome;
-    private String email;
-    private String telefone;
-    private String cargo;
 
-    @JsonManagedReference
-    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
-    //private Servico servico;
+    @Column(nullable = false, length = 50)
+    private String sobrenome;
+    
+    @Column(nullable = false, unique = true, length = 100)
+    private String email;
+
+    @Column(length = 15)
+    private String telefone;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Servico> servicos = new ArrayList<>();
 
     // Getters e Setters
     public Long getId() {
-        return id_cliente;
+        return id;
     }
 
     public void setId(Long id) {
-        this.id_cliente = id;
+        this.id = id;
     }
 
     public String getNome() {
@@ -39,7 +48,7 @@ public class Cliente {
     public String getSobrenome() {
         return sobrenome;
     }
-
+    
     public void setSobrenome(String sobrenome) {
         this.sobrenome = sobrenome;
     }
@@ -59,13 +68,12 @@ public class Cliente {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    
-    public String getCargo() {
-        return cargo;
+
+    public List<Servico> getServicos() {
+        return servicos;
     }
 
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public void setServicos(List<Servico> servicos) {
+        this.servicos = servicos;
     }
-   
 }

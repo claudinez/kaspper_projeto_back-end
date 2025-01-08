@@ -11,23 +11,23 @@ import com.example.sistema_orcamento.repository.ClienteRepository;
 
 @Service
 public class ClienteService {
-    // Lógica do serviço
-	 @Autowired
-	    private ClienteRepository clienteRepository;
 
-	    public List<Cliente> listarTodos() {
-	        return clienteRepository.findAll();
-	    }
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-	    public Optional<Cliente> buscarPorId(Long id) {
-	        return clienteRepository.findById(id);
-	    }
+    public List<Cliente> listarTodos() {
+        return clienteRepository.findAll();
+    }
 
-	    public Cliente salvar(Cliente cliente) {
-	        return clienteRepository.save(cliente);
-	    }
+    public Optional<Cliente> buscarPorId(Long id) {
+        return clienteRepository.findById(id);
+    }
 
-	    public void excluir(Long id) {
-	        clienteRepository.deleteById(id);
-	    }
+    public Cliente salvar(Cliente cliente) {
+        return clienteRepository.save(cliente);
+    }
+
+    public void excluir(Long id) {
+        clienteRepository.deleteById(id);
+    }
 }

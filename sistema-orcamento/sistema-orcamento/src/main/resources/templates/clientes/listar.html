@@ -9,27 +9,25 @@
 <body>
     <div class="container">
         <h2>Lista de Clientes</h2>
-        <a href="/clientes/novo" class="btn btn-success mb-3">Novo Cliente</a>
         <table class="table">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Nome</th>
                     <th>Sobrenome</th>
                     <th>Email</th>
-                    <th>Ações</th>
+                    <th>Telefone</th>
+                    <th>Cargo</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="cliente : ${clientes}">
+                    <td th:text="${cliente.id_cliente}"></td>
                     <td th:text="${cliente.nome}"></td>
+                    <td th:text="${cliente.sobrenome}"></td>
                     <td th:text="${cliente.email}"></td>
-                    <td>
-                        <a th:href="@{/clientes/{id_cliente}(id=${cliente.id_cliente})}" class="btn btn-info">Ver</a>
-                        <a th:href="@{/clientes/{id_cliente}/editar(id=${cliente.id_cliente})}" class="btn btn-warning">Editar</a>
-                        <form th:action="@{/clientes/{id_cliente}/excluir(id=${cliente.id_cliente})}" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Excluir</button>
-                        </form>
-                    </td>
+                    <td th:text="${cliente.telefone}"></td>
+                    <td th:text="${cliente.cargo}"></td>
                 </tr>
             </tbody>
         </table>
